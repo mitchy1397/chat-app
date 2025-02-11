@@ -2,22 +2,62 @@
   display: flex; 
 }
 
+/* サイドバー///////////////////////////////////////// */
+
 .side-bar {
   background-color: #253141;
   width: 300px;
   height: 100vh;
 }
 
+/* サイドバー上部//////////////////////// */
+
 .side-bar-header {
   height: 100px;
   padding: 0 20px;
+  background-color: #253141;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
+
+/* ユーザー名 */
+.header-name a {
+  font-size: 16px;
+  color: #FAFAFA;
+  /* アンダーライン消し */
+  text-decoration: none;
+}
+
+/* チャット作成ボタン */
+.create-room a {
+  font-size: 10px;
+  border: 1px solid lightblue;
+  padding: 14px;
+  color: deepskyblue;
+  text-decoration: none;
+}
+
+/* サイドバー下部//////////////////// */
 
 .rooms {
   background-color: #2F3E51;
   height: calc(100vh - 100px);
   padding: 0 20px;
+  /* スクロール機能 */
+  overflow: scroll;
 }
+
+/* ルーム作成 */
+.room {
+  padding: 20px 0 40px;
+}
+
+.room-name a {
+  text-decoration: none;
+  color: white;
+}
+
 
 .chat {
   background-color: #FFFFFF;
