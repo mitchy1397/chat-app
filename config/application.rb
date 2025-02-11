@@ -18,6 +18,17 @@ module ChatApp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+    
+    
+#     rails gコマンドでコントローラーを作成すると、以下のようなファイルが自動生成されます。
+
+# 生成したファイルに対応したスタイルシート
+# 生成したファイルに対応したヘルパー
+# 生成したファイルに対応したJavaScriptファイル
+# アプリケーションをテストするためのファイル
+# 今回作成するChatAppでは、必要のないファイルですので、設定を変更して生成させないようにします。
+    
+    
     config.generators do |g|
       g.stylesheets false
       g.javascripts false
