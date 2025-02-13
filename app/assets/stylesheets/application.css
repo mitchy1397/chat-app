@@ -13,3 +13,9 @@
  *= require_tree .
  *= require_self
  */
+
+
+ /* width設定した際に意図せずにpadding等を合計したサイズになって、サイズが崩れないようにするための記述 */
+ * {
+  box-sizing: border-box;
+}
