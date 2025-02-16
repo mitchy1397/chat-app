@@ -18,6 +18,31 @@
         <label class='chat-room-form__label' for='chat_room_チャットメンバー'>チャットメンバー</label>
       </div>
       <div class='chat-room-form__field--right'>
+
+        <%# プルダウンは、select要素とoption要素を使用して実装 %>
+        <%# room[user_ids]という記述は、キーに対する値という通常のパラメーターと異なり、値としてさらにハッシュを入れ子にすることを示すものです %>
+        <%# 末尾についた[]について,この記述は、キーに対する値を配列として格納することを示すもので、これにより、1つのキーに対して、複数の値を受け取ることができる。 %>
+        <select name="room[user_ids][]">
+          <%# ビューファイル上で、DBに管理されているユーザーすべてのレコードをUserクラスから取得して、それぞれ1つずつユーザー名を表示させる実装を行います。 %>
+          <%# 選択肢1つ目にはvalue属性を追加し、2つ目以降はユーザーの名前を全員分繰り返し表示させています。 %>
+          <option value="">チャットするユーザーを選択してください</option>
+          <%# Userはモデルクラスそのものを指し、@Userはそのクラスのデータを保持するためにコントローラーで設定されたインスタンス変数です %>
+          <%# 例えば、コントローラーで@users = User.allと定義しておけば、ビューで@users.each do |user|と記述しその変数を直接参照できます。 %>
+          <%# User.all.each do |user| %>
+          <%# モデル名.where("条件")と記述すると、条件に一致したレコードを配列として取得できます。
+            このwhereメソッドに続けてnotメソッドを追記すると、モデル名.where.not("条件")は、条件に一致したレコード以外の値を配列として取得できます %>
+          <% User.where.not(id: current_user.id).each do |user| %>
+          <%# select要素のname属性にroom[user_ids][]を指定し、option要素のvalue属性にuser.idを指定しました %>
+            <option value=<%=user.id%>><%= user.name %></option>
+          <% end %>
+        </select>
+        <%# 現状の実装のままでは、現在ログインしているユーザーのidを送信することができず、送信したユーザーのみチャットルームに存在になるので、
+          現在ログイン中のユーザーのidも一緒に、paramsでコントローラーへ送信できるよう実装する %>
+        <%# type属性にhiddenを指定することで、画面上には表示されないinput要素を作成できます。
+          そして、先ほどのselect要素と同様、name属性にroom[user_ids][]を指定し、room[user_ids]をキーに対する値を配列で受け取る仕組みです。
+          value属性にはcurrent_user.idを指定しているため、room[user_ids]キーに対して、ログイン中ユーザーのidを配列として格納し、コントローラーへ送信します。 %>
+        <input name="room[user_ids][]" type="hidden" value=<%= current_user.id %>>
+        <%# room[user_ids][]で送られるparamsの中身  {"room" => {"user_ids" => ["選択したユーザーのid", "現在ログインしているユーザーのid"]}} %>
       </div>
     </div>
     <div class='chat-room-form__field'>
