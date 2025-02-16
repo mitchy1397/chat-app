@@ -7,21 +7,22 @@
     <%= link_to current_user.name, edit_user_path(current_user) %>
   </div>
   <div class="create-room">
-    <a href="#">チャットを作成する</a>
+    <%# 「rails routes」を実行してrooms#newのpathを調べます %>
+    <%# この<a>タグを削除  <a href="#">チャットを作成する</a> %>
+    <%= link_to "チャットを作成する", new_room_path %>
   </div>
 </div>
 
 <%# サイドバー下部 %>
 <div class="rooms">
   <%# チャットルーム１つ１つのdiv作成 %>
-  <div class="room">
-    <div class="room-name">
-      <a href="#">techroom1</a>
+  <%# 「eachメソッド」を使って全てのチャットルームに対して同じ処理を繰り返し実行します。 %>
+  <% current_user.rooms.each do |room| %>
+    <div class="room">
+      <div class="room-name">
+        <%# room.nameの「name」は、roomsテーブルのカラム名 %>
+        <a href="#"><%= room.name %></a>
+      </div>
     </div>
-  </div>
-  <div class="room">
-    <div class="room-name">
-      <a href="#">techroom2</a>
-    </div>
-  </div>
+  <% end %>
 </div>
