@@ -1,5 +1,7 @@
 <div class='chat-room-form'>
   <h1>新規チャットルーム</h1>
+  <%# カリキュラムからダウンロードした段階ではform_withの第一引数である@roomは、まだ定義されていない変数です。
+  この@roomは、roomsコントローラーで定義します。 %>
   <%=form_with model: @room, local: true do |f|%>
     <div class='chat-room-form__field'>
       <div class='chat-room-form__field--left'>

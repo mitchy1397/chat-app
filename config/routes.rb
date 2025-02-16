@@ -6,4 +6,7 @@ Rails.application.routes.draw do
   # 編集画面への遷移には、edit,updateアクション
   resources :users, only: [:edit, :update]
   # rails routes でコントローラーedit,updateアクションを一応確認
+  
+  # 新規チャットルームの作成で動くアクションは「new」と「create」のみ
+  resources :rooms, only: [:new, :create]
 end
