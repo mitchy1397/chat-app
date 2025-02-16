@@ -1,5 +1,10 @@
 class RoomsController < ApplicationController
 
+  # ルートパスを先ほど作成したrooms/index.html.erbに変更します
+  # これで現在「メッセージ一覧画面」がルートパスの表示だったものが変更され、「チャットルーム一覧画面」がルートとして表示されます。
+  def index
+  end 
+
   # チャットルームの新規作成なので「new」アクションを定義します。
   # また、form_withに渡す引数として、値が空のRoomインスタンスを@roomに代入しています。
   def new
