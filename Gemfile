@@ -70,3 +70,4 @@ end
 # デバイスの実装
 gem 'devise'
 
+gem 'pry-rails'
