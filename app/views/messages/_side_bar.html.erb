@@ -1,7 +1,10 @@
 <%# サイドバー上部 %>
 <div class="side-bar-header">
   <div class="header-name">
-    <a href="#">Tom</a>
+    <%# 仮で作った<a>タグを削除 <a href="#">Tom</a> %>
+    <%# 「rails routes」コマンドを実行し、どのようなリンク先を指定すれば、該当のアクションが動くのか確認します
+    link_toのパスを、ログインしているユーザーの編集をするため 、edit_user_path(current_user)と指定します。current_user.nameは、ログインしているユーザー名です。 %>
+    <%= link_to current_user.name, edit_user_path(current_user) %>
   </div>
   <div class="create-room">
     <a href="#">チャットを作成する</a>
