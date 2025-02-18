@@ -41,7 +41,8 @@ class MessagesController < ApplicationController
   private
 # パラメーターの中に、ログインしているユーザーのidと紐付いている、メッセージの内容contentを受け取れるように許可します。
   def message_params
-    params.require(:message).permit(:content).merge(user_id: current_user.id)
+    # imageという名前でアクセスできるようになった画像ファイルの保存を許可する実装を行います。
+    params.require(:message).permit(:content, :image).merge(user_id: current_user.id)
   end 
 
 end
