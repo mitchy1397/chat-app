@@ -3,7 +3,9 @@
   <%# 左右で別のヘッダー作成 %>
   <div class="left-header">
     <div class="header-title">
-      hogefuga
+      <%# チャットルーム名はDBに保存されている値が表示されるように編集する
+      コントローラーで値を取得する部分を確認すると@room = Room.find(params[:room_id]) %>
+      <%= @room.name %>
     </div>
     </div>
   <div class="right-header">
