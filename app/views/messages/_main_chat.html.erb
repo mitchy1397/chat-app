@@ -3,65 +3,67 @@
   <%# 左右で別のヘッダー作成 %>
   <div class="left-header">
     <div class="header-title">
-      hogefuga
+      <%# チャットルーム名はDBに保存されている値が表示されるように編集する
+      コントローラーで値を取得する部分を確認すると@room = Room.find(params[:room_id]) %>
+      <%= @room.name %>
     </div>
     </div>
   <div class="right-header">
     <div class="header-button">
-     <a href="#">チャットを終了する</a>
+      <%# <a href="#">チャットを終了する</a> %>
+      <%# rails routesでroomsコントローラーのdestroyアクションに対応するPrefixは、roomということが分かるので、削除のパスはroom_pathとなります。 %>
+      <%# 削除するチャットルームを区別するために、定義している@roomを引数にし、room_path(@room)と指定しましょう。 %>
+      <%# HTTPメソッドのdeleteを指定すると、roomsコントローラーのdestroyアクションが実行されます %>
+      <%= link_to "チャットを終了する", room_path(@room), data: { turbo_method: :delete } %>
     </div>
   </div>
 </div>
 
 <%# メッセージ %>
 <div class="messages">
-  <div class="message">
-    <div class="upper-message">
-      <div class="message-user">
-        Tom
-      </div>
-      <div class="message-date">
-        2020/3/31(Wed) 12:43:30
-      </div>
-    </div>
-    <div class="lower-message">
-      <div class="message-content">
-        おはよう
-      </div>
-    </div>
-  </div>
-
-  <div class="message">
-    <div class="upper-message">
-      <div class="message-user">
-        Tom
-      </div>
-      <div class="message-date">
-        2020/3/31(Wed) 12:47:30
-      </div>
-    </div>
-    <div class="lower-message">
-      <div class="message-content">
-        こんばんは
-      </div>
-    </div>
-  </div>
+  <%# 部分テンプレートを作成 %>
+  <%# 部分テンプレートを呼び出すためのrenderメソッド、呼び出す部分テンプレートは、partialというオプションで部分テンプレート名を指定することで、該当する部分テンプレートを表示できます。 %>
+  <%# renderメソッドでは、呼び出す部分テンプレートに値を渡すために、localsというオプションを使用することで、部分テンプレート内でその変数を使えるようになります。 %>
+  <%# @messages.each do |message|%>
+    <%#= render partial: 'message', locals: {message: message} %>
+  <%# end %>
+  <%# 上記の内容をcollectionを用いれば一行で記述できる %>
+  <%= render partial: 'message', collection: @messages %>
+  <%# collectionオプションを使用する際のポイントとしては、複数要素が入っているインスタンス変数を、collectionオプションの対象に指定すること %>
+  <%# collectionオプションを使用した場合、呼び出した部分テンプレート内では、インスタンス変数から取り出した要素を、部分テンプレート名と同じ変数名で扱うことができます。
+つまり、_message.html.erb内において、@messagesから取り出された1つ1つの要素はmessageとして扱うことができます。 %>
 </div>
 
 <%# 投稿フォームの実装 %>
 
-<div class="form">
+<%# メッセージを保存できるように、ビューを編集します。formタグ、inputタグを用いて記述されている箇所をform_withを使って書き換えましょう %>
+<%# <div class="form"> 
+      <div class="form-input"> %>
+        <%# inputタグにtypeを指定しないとデフォルトでtype=textになる %>
+        <%# <input class="form-message" placeholder="type a message"> %>
+        <%# label要素とはフォームの中でフォームの項目名とフォームの入力要素
+        画像選択フォーム、プルダウン、チェックボックスなど）を関連付けるための要素です
+        label要素の役割の1つは、label要素がクリックされたときに、子要素もクリックされたことにしてくれることです。
+        この仕組みを使うと、見えないはずのファイル選択ボタンをクリックしたかのように動作させることができます。 %>
+        <%# <label class="form-image"> %>
+          <%# <span class="image-file">画像</span> %>
+          <%# <input type="file" class="hidden"> %>
+        <%# </label> %>
+      <%# </div>  %>
+        <%# <input class="form-submit" type="submit" value="送信"> %>
+    <%# </div> %>
+
+<%# form_withの引数に@room, @messageの2つを渡している点に注意してください。
+これは、messagesのルーティングがroomsにネストされているためです。チャットルームとメッセージとの間には、あるチャットルームに属しているメッセージ、という親子関係があります。 %>
+<%= form_with model: [@room, @message], html: {class: "form"}, local: true do |f|%>
+<%# modelオプションに記述した@roomには「指定のチャットルームのレコード情報」、@messageには「Messageモデルの空のインスタンス（Message.new）」をあらかじめセットしておく必要があります。
+次に、これらの変数をコントローラーのindexアクションで定義しましょう。 %>
   <div class="form-input">
-    <%# inputタグにtypeを指定しないとデフォルトでtype=textになる %>
-    <input class="form-message" placeholder="type a message">
-    <%# label要素とはフォームの中でフォームの項目名とフォームの入力要素
-    画像選択フォーム、プルダウン、チェックボックスなど）を関連付けるための要素です
-    label要素の役割の1つは、label要素がクリックされたときに、子要素もクリックされたことにしてくれることです。
-    この仕組みを使うと、見えないはずのファイル選択ボタンをクリックしたかのように動作させることができます。 %>
+    <%= f.text_field :content, class: 'form-message', placeholder: 'type a message' %>
     <label class="form-image">
       <span class="image-file">画像</span>
-      <input type="file" class="hidden">
+      <%= f.file_field :image, class: 'hidden' %>
     </label>
-  </div> 
-    <input class="form-submit" type="submit" value="送信">
-</div>
+  </div>
+  <%= f.submit '送信', class: 'form-submit' %>
+<% end %>
