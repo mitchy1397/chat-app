@@ -9,7 +9,8 @@
       <div class="message-date">
         <!-- 投稿した時刻を出力する -->
         <%# messagesテーブルのcreated_atカラムから、投稿した時刻を取得しています。 %>
-        <%= message.created_at %>
+        <%# l（エル）メソッドは、日付や時刻を表示するRailsのメソッドです %>
+        <%= l message.created_at %>
       </div>
     </div>
     <div class="lower-message">
