@@ -13,7 +13,8 @@ module ChatApp
     # 投稿時刻の表示を変更しよう
     config.i18n.default_locale = :ja
     config.time_zone = 'Tokyo'
-
+    # 画像処理にMiniMagickを使用するため、設定ファイルに記述を行います
+    config.active_storage.variant_processor = :mini_magick
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files
