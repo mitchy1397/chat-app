@@ -10,7 +10,11 @@
     </div>
   <div class="right-header">
     <div class="header-button">
-     <a href="#">チャットを終了する</a>
+      <%# <a href="#">チャットを終了する</a> %>
+      <%# rails routesでroomsコントローラーのdestroyアクションに対応するPrefixは、roomということが分かるので、削除のパスはroom_pathとなります。 %>
+      <%# 削除するチャットルームを区別するために、定義している@roomを引数にし、room_path(@room)と指定しましょう。 %>
+      <%# HTTPメソッドのdeleteを指定すると、roomsコントローラーのdestroyアクションが実行されます %>
+      <%= link_to "チャットを終了する", room_path(@room), data: { turbo_method: :delete } %>
     </div>
   </div>
 </div>

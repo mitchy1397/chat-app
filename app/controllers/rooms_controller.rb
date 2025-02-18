@@ -24,6 +24,15 @@ class RoomsController < ApplicationController
     end
   end
 
+  # destroyアクションは、削除するだけなのでビューの表示は必要はありません
+  # そのため、インスタンス変数ではなく変数としてroomを定義し、destroyメソッドを使用します。
+  def destroy
+    # どのチャットルームを削除するのかを特定する場合は、Room.find(params[:id])を使用して、削除したいチャットルームの情報を取得します。
+    room = Room.find(params[:id])
+    room.destroy
+    redirect_to root_path
+  end
+
   # Railsではセキュリティ対策として、保存する前にストロングパラメーターを使い、許可するパラメーターを指定してから、データを保存するよう推奨されています。
   # バリューが配列で送られてきているため、配列の保存を許可するためのストロングパラメーターが必要になります
   private

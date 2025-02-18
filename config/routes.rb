@@ -11,7 +11,8 @@ Rails.application.routes.draw do
   # rails routes でコントローラーedit,updateアクションを一応確認
   
   # 新規チャットルームの作成で動くアクションは「new」と「create」のみ
-  resources :rooms, only: [:new, :create] do
+  # room削除機能追加destroy
+  resources :rooms, only: [:new, :create, :destroy] do
   # 普段通りのルーティングだと、パスの中にどのツイートへのコメントなのかを示す情報がありません。メッセージには必ずメッセージ先となるroomが存在しているはずです。
   # メッセージを投稿する際には、どのroomに対するmessageなのかをパスから判断できるようにしたいので、ここではルーティングのネストという方法を使っていきます。
   # ルーティングをネストさせる一番の理由は、アソシエーション先のレコードのidをparamsに追加してコントローラーに送るため
