@@ -6,6 +6,10 @@ class MessagesController < ApplicationController
     # ルーティングをネストしているため/rooms/:room_id/messagesといったパスになり,パスにroom_idが含まれているため、
     # paramsというハッシュオブジェクトの中に、room_idという値が存在しています。そのため、params[:room_id]と記述することでroom_idを取得できます。
     @room = Room.find(params[:room_id])
+    # 一覧画面で表示するメッセージ情報を取得する実装
+    # チャットルームに紐付いている全てのメッセージ（@room.messages）を@messagesと定義し、一覧画面で表示するメッセージ情報には、ユーザー情報も紐付いて表示されます。
+    # この場合、メッセージに紐付くユーザー情報の取得に、メッセージの数と同じ回数のアクセスが必要になるので、N+1問題が発生します。その場合は、includesメソッドを使用して、解消
+    @messages = @room.messages.includes(:user)
   end
 
   # form_withでビューファイルからコントローラーに値を送信する準備はできたので
@@ -24,6 +28,10 @@ class MessagesController < ApplicationController
       # 新たにインスタンス変数を生成します。これによって保存後の情報に更新されます。
       redirect_to room_messages_path(@room)
     else
+      # 一覧画面で表示するメッセージ情報を取得する際に、投稿に失敗したときの処理にも、同様に@messagesを定義しました。
+      # renderを用いることで、投稿に失敗した@messageの情報を保持しつつindex.html.erbを参照することができます（この時、indexアクションは経由しません）。
+      # しかしながら、そのときに@messagesが定義されていないとエラーになってしまいます。そこで、indexアクションと同様に@messagesを定義する必要があります。
+      @messages = @room.messages.includes(:user)
       render :index, status: :unprocessable_entity
     end
   end

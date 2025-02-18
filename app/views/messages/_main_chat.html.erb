@@ -15,37 +15,17 @@
 
 <%# メッセージ %>
 <div class="messages">
-  <div class="message">
-    <div class="upper-message">
-      <div class="message-user">
-        Tom
-      </div>
-      <div class="message-date">
-        2020/3/31(Wed) 12:43:30
-      </div>
-    </div>
-    <div class="lower-message">
-      <div class="message-content">
-        おはよう
-      </div>
-    </div>
-  </div>
-
-  <div class="message">
-    <div class="upper-message">
-      <div class="message-user">
-        Tom
-      </div>
-      <div class="message-date">
-        2020/3/31(Wed) 12:47:30
-      </div>
-    </div>
-    <div class="lower-message">
-      <div class="message-content">
-        こんばんは
-      </div>
-    </div>
-  </div>
+  <%# 部分テンプレートを作成 %>
+  <%# 部分テンプレートを呼び出すためのrenderメソッド、呼び出す部分テンプレートは、partialというオプションで部分テンプレート名を指定することで、該当する部分テンプレートを表示できます。 %>
+  <%# renderメソッドでは、呼び出す部分テンプレートに値を渡すために、localsというオプションを使用することで、部分テンプレート内でその変数を使えるようになります。 %>
+  <%# @messages.each do |message|%>
+    <%#= render partial: 'message', locals: {message: message} %>
+  <%# end %>
+  <%# 上記の内容をcollectionを用いれば一行で記述できる %>
+  <%= render partial: 'message', collection: @messages %>
+  <%# collectionオプションを使用する際のポイントとしては、複数要素が入っているインスタンス変数を、collectionオプションの対象に指定すること %>
+  <%# collectionオプションを使用した場合、呼び出した部分テンプレート内では、インスタンス変数から取り出した要素を、部分テンプレート名と同じ変数名で扱うことができます。
+つまり、_message.html.erb内において、@messagesから取り出された1つ1つの要素はmessageとして扱うことができます。 %>
 </div>
 
 <%# 投稿フォームの実装 %>
