@@ -50,18 +50,34 @@
 
 <%# 投稿フォームの実装 %>
 
-<div class="form">
+<%# メッセージを保存できるように、ビューを編集します。formタグ、inputタグを用いて記述されている箇所をform_withを使って書き換えましょう %>
+<%# <div class="form"> 
+      <div class="form-input"> %>
+        <%# inputタグにtypeを指定しないとデフォルトでtype=textになる %>
+        <%# <input class="form-message" placeholder="type a message"> %>
+        <%# label要素とはフォームの中でフォームの項目名とフォームの入力要素
+        画像選択フォーム、プルダウン、チェックボックスなど）を関連付けるための要素です
+        label要素の役割の1つは、label要素がクリックされたときに、子要素もクリックされたことにしてくれることです。
+        この仕組みを使うと、見えないはずのファイル選択ボタンをクリックしたかのように動作させることができます。 %>
+        <%# <label class="form-image"> %>
+          <%# <span class="image-file">画像</span> %>
+          <%# <input type="file" class="hidden"> %>
+        <%# </label> %>
+      <%# </div>  %>
+        <%# <input class="form-submit" type="submit" value="送信"> %>
+    <%# </div> %>
+
+<%# form_withの引数に@room, @messageの2つを渡している点に注意してください。
+これは、messagesのルーティングがroomsにネストされているためです。チャットルームとメッセージとの間には、あるチャットルームに属しているメッセージ、という親子関係があります。 %>
+<%= form_with model: [@room, @message], html: {class: "form"}, local: true do |f|%>
+<%# modelオプションに記述した@roomには「指定のチャットルームのレコード情報」、@messageには「Messageモデルの空のインスタンス（Message.new）」をあらかじめセットしておく必要があります。
+次に、これらの変数をコントローラーのindexアクションで定義しましょう。 %>
   <div class="form-input">
-    <%# inputタグにtypeを指定しないとデフォルトでtype=textになる %>
-    <input class="form-message" placeholder="type a message">
-    <%# label要素とはフォームの中でフォームの項目名とフォームの入力要素
-    画像選択フォーム、プルダウン、チェックボックスなど）を関連付けるための要素です
-    label要素の役割の1つは、label要素がクリックされたときに、子要素もクリックされたことにしてくれることです。
-    この仕組みを使うと、見えないはずのファイル選択ボタンをクリックしたかのように動作させることができます。 %>
+    <%= f.text_field :content, class: 'form-message', placeholder: 'type a message' %>
     <label class="form-image">
       <span class="image-file">画像</span>
-      <input type="file" class="hidden">
+      <%= f.file_field :image, class: 'hidden' %>
     </label>
-  </div> 
-    <input class="form-submit" type="submit" value="送信">
-</div>
+  </div>
+  <%= f.submit '送信', class: 'form-submit' %>
+<% end %>

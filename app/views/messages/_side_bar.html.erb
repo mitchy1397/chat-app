@@ -21,7 +21,11 @@
     <div class="room">
       <div class="room-name">
         <%# room.nameの「name」は、roomsテーブルのカラム名 %>
-        <a href="#"><%= room.name %></a>
+        <%# ルーティングを設定したのでlink toで書き直し %>
+        <%# これは削除<a href="#"> room.name %>
+        <%# パスにroomを引数とすることで、メッセージと紐付いているチャットルームのidを持たせることができます。
+        したがって、チャットルーム名をクリックすると、messagesコントローラーのindexアクションが実行され、チャットルームのページに遷移できます。 %>
+        <%= link_to room.name, room_messages_path(room) %>
       </div>
     </div>
   <% end %>
