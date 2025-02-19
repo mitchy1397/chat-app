@@ -1,4 +1,7 @@
 class Message < ApplicationRecord
+  # アソシエーションでbelongs_toを指定した場合は、外部キー（今回はuser_id）が存在するというバリデーションは不要です。
+  # validates :user_id presence: true ←不要
+  # 外部キーに対して「空ではないか」というpresence: trueのバリデーションを記載しないように注意しましょう。
   belongs_to :room
   belongs_to :user
   # Messagesテーブルのレコードと画像を,各レコードとファイルを1対1の関係で紐づけるためにhas_one_attachedというメソッドを利用します。
